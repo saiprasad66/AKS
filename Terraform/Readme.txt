@@ -60,3 +60,6 @@ Key production features included:
 ✅ Managed identity
 ✅ Monitoring enabled
 ✅ OIDC / Workload Identity
+
+
+In AKS, the control plane components like kube-apiserver, scheduler, controller-manager, and etcd are fully managed by Azure. They are automatically provisioned and maintained by the platform and are not visible or directly accessible to users. As a user, we only manage the worker nodes and workloads, while Azure ensures high availability, patching, scaling, and security of the control plane
