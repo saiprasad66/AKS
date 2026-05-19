@@ -1,0 +1,31 @@
+🧠 Concept
+Protects:
+cluster misconfigurations
+dangerous deployments
+
+🛠️ Hands-on Implementation
+✅ Step 1: Disable Local Accounts
+local_account_disabled = true
+
+✅ Step 2: Enable Azure Policy
+
+az aks enable-addons \
+  --addons azure-policy \
+  --name aks-secure \
+  --resource-group rg
+
+✅ Step 3: Enforce Policy Example
+Block privileged containers:
+
+{
+  "effect": "deny",
+  "condition": {
+    "field": "securityContext.privileged",
+    "equals": "true"
+  }
+}
+``
+
+🚨 What You Achieved
+✅ Prevent unsafe configs
+✅ Enforce governance
