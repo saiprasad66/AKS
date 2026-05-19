@@ -42,4 +42,17 @@ resource "azurerm_kubernetes_cluster" "aks" {
   tags = {
     env = "prod"
   }
+
+resource "azurerm_kubernetes_cluster_node_pool" "usernp" {
+  name                  = "usernp"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  vm_size               = "Standard_DS3_v2"
+  vnet_subnet_id        = var.subnet_id
+
+  enable_auto_scaling = true
+  min_count           = 2
+  max_count           = 10
+
+  mode = "User"
+}
 }
