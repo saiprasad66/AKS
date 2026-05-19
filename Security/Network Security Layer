@@ -1,0 +1,35 @@
+🧠 Concept
+Controls:
+
+Who can talk to AKS
+Which pods can communicate
+
+🛠️ Hands-on Implementation
+✅ Step 1: Private AKS Cluster
+private_cluster_enabled = true
+
+✅ Step 2: Restrict API Access
+api_server_authorized_ip_ranges = ["YOUR_IP"]
+
+✅ Step 3: Create Network Policy
+Block all → allow only frontend → backend
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend
+
+
+🚨 What You Achieved
+✅ Zero-trust networking
+✅ No lateral movement
