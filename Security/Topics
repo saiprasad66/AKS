@@ -1,0 +1,113 @@
+Think of AKS security as 5 layers:
+1. Identity & Access
+2. Network Security
+3. Cluster Security
+4. Workload Security
+5. Data & Secrets Security
+
+
+🧠 1. Identity & Access (MOST IMPORTANT)
+✅ Key Topics
+
+Azure AD Integration with AKS
+Azure RBAC vs Kubernetes RBAC
+Managed Identities (System/User Assigned)
+Workload Identity (replacement for Pod Identity)
+Service Accounts & RBAC bindings
+
+You should know:
+
+Difference:
+Azure RBAC → controls who accesses cluster
+Kubernetes RBAC → controls what they do inside cluster
+
+
+How pods access Azure resources securely:
+Pod → Service Account → OIDC → Managed Identity
+
+🌐 2. Network Security (CRITICAL IN PRODUCTION)
+✅ Key Topics
+
+Azure CNI vs Kubenet security implications
+Network Policies (Azure / Calico)
+NSGs (Network Security Groups)
+Private AKS Cluster
+API Server Authorized IP Ranges
+Azure Firewall / WAF integration
+
+
+🔥 Real Expectations
+You should design:
+✅ Private cluster:
+Terraformprivate_cluster_enabled = trueShow more lines
+✅ Restrict API access:
+Terraformapi_server_authorized_ip_ranges = ["YourIP"]Show more lines
+✅ Pod-level communication control:
+YAMLNetworkPolicyShow more lines
+
+⚡ Real Scenario
+👉 Prevent:
+frontend → talking to DB directly
+
+
+🛡️ 3. Cluster Hardening
+✅ Key Topics
+
+Disable local accounts
+Azure Policy for AKS
+Defender for Containers
+CIS AKS Benchmark
+Pod Security Standards (restricted/baseline)
+
+
+🔥 Production Practices
+✅ Disable basic auth:
+Terraformlocal_account_disabled = trueShow more lines
+✅ Enforce security via Azure Policy:
+No privileged containers
+Only approved images
+
+
+⚡ Real Scenario
+👉 Block deployments with:
+privileged: true
+hostPath volumes
+
+
+📦 4. Workload Security
+✅ Key Topics
+
+Pod Security Context
+Admission Controllers
+Image scanning (ACR + Defender)
+Runtime security (Falco / Defender)
+
+
+🔥 Example (Security Context)
+YAMLsecurityContext:  runAsNonRoot: true  
+readOnlyRootFilesystem: trueShow 
+
+✅ Image Security
+Scan images in ACR
+Block vulnerable images
+
+⚡ Real Incident
+👉 Old vulnerable image deployed → exploited → crypto mining attack
+
+
+🔐 5. Secrets & Data Security
+✅ Key Topics
+
+Azure Key Vault integration
+CSI Secret Store Driver
+Encryption at rest (etcd managed)
+TLS & certificates
+
+
+🔥 Best Practice
+✅ NEVER store secrets in YAML:
+YAML# BAD PRACTICEenv:  password: admin123Show more lines
+✅ Use Key Vault:
+AKS → CSI Driver → Key Vault → Pod
+
+⚡ Real Scenario
