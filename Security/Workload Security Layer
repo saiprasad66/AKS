@@ -1,0 +1,22 @@
+🧠 Concept
+Protects:
+
+containers
+runtime activities
+
+🛠️ Hands-on Implementation
+✅ Step 1: Secure Pod Definition
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secure-pod
+spec:
+  containers:
+  - name: app
+    image: nginx
+    securityContext:
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+
+✅ Step 2: Enable Image Scanning
