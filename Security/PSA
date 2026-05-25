@@ -1,0 +1,88 @@
+🔹 What PSA Does
+PSA controls how pods are allowed to run based on predefined security rules.
+It ensures:
+
+✅ Pods follow security best practices
+✅ No unsafe configurations (like root access, privileged containers)
+✅ Standardized security across namespaces
+
+🔹 Three PSA Security Levels
+PSA provides three predefined profiles:
+1. 🔓 Privileged (Least Secure)
+No restrictions
+Allows everything (root, privileged mode, host access)
+
+👉 Used for:
+System-level workloads (like CNI plugins)
+
+
+2. 🔐 Baseline (Moderate Security)
+Prevents known risky configurations
+Allows standard workloads
+
+👉 Restricts:
+Privileged containers
+Some host-level access
+
+
+3. 🔒 Restricted (Most Secure)
+Enforces strict security best practices
+
+👉 Requires:
+Run as non-root
+No privilege escalation
+Read-only filesystem (recommended)
+
+
+🔹 How PSA Works
+PSA is applied using namespace labels.
+✅ Example:
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: secure-ns
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+
+
+🔁 Modes of Enforcement
+PSA supports 3 modes:
+
+Mode           Description
+enforce        Blocks pods that violate policya
+audit          Allows but logs violation
+sarn          Allows but shows warnings
+
+“In PSA, audit mode logs policy violations without blocking pods, while warn mode allows pods but shows warnings to users, 
+helping teams gradually adopt stricter security policies.”
+
+labels:
+  pod-security.kubernetes.io/enforce: restricted
+  pod-security.kubernetes.io/audit: baseline
+  pod-security.kubernetes.io/warn: baseline
+
+
+PSA = policy enforcement
+Security Context = configuration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ModeDescription
